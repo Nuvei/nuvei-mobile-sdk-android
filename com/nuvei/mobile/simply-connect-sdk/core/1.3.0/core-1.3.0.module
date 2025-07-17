@@ -34,11 +34,11 @@
         {
           "name": "core-1.3.0.aar",
           "url": "core-1.3.0.aar",
-          "size": 125462,
-          "sha512": "23018dbcbc733671be3a22c07ebcfb7198777aa6bdffcad622792270e9981b1874776e1996146076bc2fdef15a15980c0a8f1416aeed9f1404d544fdbb4681ec",
-          "sha256": "62996f0344f80fcc9400dc5c2ba3d90b3525cbc3de1196e1dce33193f6ce4f78",
-          "sha1": "d854e8b892c0911dc8e04ce58dcd79b3f92ca6da",
-          "md5": "8dcbeda27418cb1b6dd75d87feebc1e8"
+          "size": 790655,
+          "sha512": "c2908ee45da48279a22521ddeb34365bba15c17473623387fee599f6e3f6e601c03918b91385b3a84861a68a0f8e156555e453ae7ba7ac98a232fb83b13a2835",
+          "sha256": "d751fe3c65c28fe31a92fb1336fd12e27bc42883a0344217506813fe7f1b48c9",
+          "sha1": "388c8717a90cc81cd77f8cf577e9a0e5a1b47bd3",
+          "md5": "14b67a3a48f1ba768c9ce442210acc21"
         }
       ]
     },
@@ -100,6 +100,58 @@
           }
         },
         {
+          "group": "org.bouncycastle",
+          "module": "bcpkix-jdk15on",
+          "version": {
+            "requires": "1.70"
+          }
+        },
+        {
+          "group": "org.bitbucket.b_c",
+          "module": "jose4j",
+          "version": {
+            "requires": "0.9.5"
+          }
+        },
+        {
+          "group": "org.apache.cxf",
+          "module": "cxf-rt-rs-security-jose",
+          "version": {
+            "requires": "4.0.0"
+          }
+        },
+        {
+          "group": "net.minidev",
+          "module": "json-smart",
+          "version": {
+            "requires": "2.3"
+          }
+        },
+        {
+          "group": "com.nimbusds",
+          "module": "nimbus-jose-jwt",
+          "version": {
+            "requires": "7.0.1"
+          }
+        },
+        {
+          "group": "com.google.crypto.tink",
+          "module": "tink",
+          "version": {
+            "requires": "1.7.0"
+          },
+          "excludes": [
+            {
+              "group": "*",
+              "module": "guava-jdk5"
+            },
+            {
+              "group": "com.google.auto.service",
+              "module": "auto-service"
+            }
+          ]
+        },
+        {
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-stdlib",
           "version": {
@@ -111,11 +163,11 @@
         {
           "name": "core-1.3.0.aar",
           "url": "core-1.3.0.aar",
-          "size": 125462,
-          "sha512": "23018dbcbc733671be3a22c07ebcfb7198777aa6bdffcad622792270e9981b1874776e1996146076bc2fdef15a15980c0a8f1416aeed9f1404d544fdbb4681ec",
-          "sha256": "62996f0344f80fcc9400dc5c2ba3d90b3525cbc3de1196e1dce33193f6ce4f78",
-          "sha1": "d854e8b892c0911dc8e04ce58dcd79b3f92ca6da",
-          "md5": "8dcbeda27418cb1b6dd75d87feebc1e8"
+          "size": 790655,
+          "sha512": "c2908ee45da48279a22521ddeb34365bba15c17473623387fee599f6e3f6e601c03918b91385b3a84861a68a0f8e156555e453ae7ba7ac98a232fb83b13a2835",
+          "sha256": "d751fe3c65c28fe31a92fb1336fd12e27bc42883a0344217506813fe7f1b48c9",
+          "sha1": "388c8717a90cc81cd77f8cf577e9a0e5a1b47bd3",
+          "md5": "14b67a3a48f1ba768c9ce442210acc21"
         }
       ]
     },
@@ -133,11 +185,11 @@
         {
           "name": "core-1.3.0-sources.jar",
           "url": "core-1.3.0-sources.jar",
-          "size": 45393,
-          "sha512": "0df10c4530c186bfc9fffc6984ef1fa3772587747b35b5da90bcdf457dd801687a0c898e80f074d97271cad9b4f20b2e2514f4c89a1d30b3e873c586372ef774",
-          "sha256": "4c1b7cde47d2310655e1bcebaaba2db9be761798ea2390e262b1927415809779",
-          "sha1": "f2ecab8c1ca94cae42bfc66c7446145234104fd4",
-          "md5": "73f817adb88caec7a72bc7516658a179"
+          "size": 1040683,
+          "sha512": "ec04c48d10742c8474d3abec5b68e17ca337463cab37624c339489aa3f85490ce3f37e46581813c2fab7c07442d003da0b8fc34edd2f2f6d81b5cd977f25e4d3",
+          "sha256": "95c762697f1746178718198b18f0588d340b17a79cd03e9dac4705eeb97d22e6",
+          "sha1": "b51964da4e2fcf6f067f80d16a2ec31672969d98",
+          "md5": "82cd391d1df055ff599a8fcd3d4ed446"
         }
       ]
     }
