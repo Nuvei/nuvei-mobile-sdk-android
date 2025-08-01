@@ -34,11 +34,11 @@
         {
           "name": "googlepay-1.3.0.aar",
           "url": "googlepay-1.3.0.aar",
-          "size": 19240,
-          "sha512": "f2adc098611a207e484fa30d8528f16f4d51cd4f2416235d62f945f8c69e9ce2692f6e0cfbec3e2e9e5e5d016bc299889a484d77ca932d6ba234975e32c988bb",
-          "sha256": "93b41aacdc005274e810102835f57750250247b894264e33d6a54813c272cfac",
-          "sha1": "01724627628b7b095257999527c7a47438251f2c",
-          "md5": "ca7799ef4addd9a6a0f36d235781c78d"
+          "size": 19247,
+          "sha512": "70e48a044629d239b091b3672794757bf549c16f08c7bf2141aa219e0ea0e757982c99f30f8aa800e78e1e5d14c6afe6061460d7d9c03536df9686bb72a7da67",
+          "sha256": "02ae54521ce4997148d7f7a2e488919b682d2ce1c0868c449c2dedd74c793157",
+          "sha1": "4e4796a925e66c62bf12f0a37ba3300a8c82be3e",
+          "md5": "95b8c4294ec2c399c0a4c6a1167b8e5a"
         }
       ]
     },
@@ -104,11 +104,11 @@
         {
           "name": "googlepay-1.3.0.aar",
           "url": "googlepay-1.3.0.aar",
-          "size": 19240,
-          "sha512": "f2adc098611a207e484fa30d8528f16f4d51cd4f2416235d62f945f8c69e9ce2692f6e0cfbec3e2e9e5e5d016bc299889a484d77ca932d6ba234975e32c988bb",
-          "sha256": "93b41aacdc005274e810102835f57750250247b894264e33d6a54813c272cfac",
-          "sha1": "01724627628b7b095257999527c7a47438251f2c",
-          "md5": "ca7799ef4addd9a6a0f36d235781c78d"
+          "size": 19247,
+          "sha512": "70e48a044629d239b091b3672794757bf549c16f08c7bf2141aa219e0ea0e757982c99f30f8aa800e78e1e5d14c6afe6061460d7d9c03536df9686bb72a7da67",
+          "sha256": "02ae54521ce4997148d7f7a2e488919b682d2ce1c0868c449c2dedd74c793157",
+          "sha1": "4e4796a925e66c62bf12f0a37ba3300a8c82be3e",
+          "md5": "95b8c4294ec2c399c0a4c6a1167b8e5a"
         }
       ]
     },
