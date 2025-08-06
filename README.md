@@ -69,8 +69,6 @@ Before making any calls, configure the environment:
 ```kotlin
 // e.g. in Application.onCreate()
 
-// Setup App
-MerchantServer.baseUrl = appEnvironment.merchantBaseUrl
 // Setup Nuvei
 Nuvei.setup(context, Nuvei.Environment.QA)
 // or STAGING / PROD
