@@ -1,0 +1,173 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.nuvei.mobile.sdk",
+    "module": "simplyconnect",
+    "version": "1.4.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.9"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "8.7.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.24"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "simplyconnect-1.4.0.aar",
+          "url": "simplyconnect-1.4.0.aar",
+          "size": 263426,
+          "sha512": "69073b1afdb471a5116f6c425798a9b55408ef944553ff4c652ecc5d8f5513eaab2098c4f5715c14a6eea1241146d81a7958f05e54450eae0320543c5f8f53cb",
+          "sha256": "d24e99ca8ff0c6237b941350b6b97c4af5e94440a51acb4cf5728606a92ba1d9",
+          "sha1": "4d8b746fd1ab625a55e406605d6e2462cf99b454",
+          "md5": "718fb4147ea59d1737f0e4c059376cc9"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.core",
+          "module": "core-ktx",
+          "version": {
+            "requires": "1.15.0"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.7.0"
+          }
+        },
+        {
+          "group": "com.google.android.material",
+          "module": "material",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "com.google.android.gms",
+          "module": "play-services-wallet",
+          "version": {
+            "requires": "19.4.0"
+          }
+        },
+        {
+          "group": "com.squareup.retrofit2",
+          "module": "retrofit",
+          "version": {
+            "requires": "2.11.0"
+          }
+        },
+        {
+          "group": "com.github.bumptech.glide",
+          "module": "glide",
+          "version": {
+            "requires": "4.16.0"
+          }
+        },
+        {
+          "group": "com.google.code.gson",
+          "module": "gson",
+          "version": {
+            "requires": "2.11.0"
+          }
+        },
+        {
+          "group": "com.nuvei.mobile.sdk",
+          "module": "core",
+          "version": {
+            "requires": "1.4.0"
+          }
+        },
+        {
+          "group": "com.nuvei.mobile.sdk",
+          "module": "googlepay",
+          "version": {
+            "requires": "1.4.0"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "8.7.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.24"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "simplyconnect-1.4.0.aar",
+          "url": "simplyconnect-1.4.0.aar",
+          "size": 263426,
+          "sha512": "69073b1afdb471a5116f6c425798a9b55408ef944553ff4c652ecc5d8f5513eaab2098c4f5715c14a6eea1241146d81a7958f05e54450eae0320543c5f8f53cb",
+          "sha256": "d24e99ca8ff0c6237b941350b6b97c4af5e94440a51acb4cf5728606a92ba1d9",
+          "sha1": "4d8b746fd1ab625a55e406605d6e2462cf99b454",
+          "md5": "718fb4147ea59d1737f0e4c059376cc9"
+        }
+      ]
+    },
+    {
+      "name": "releaseSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "files": [
+        {
+          "name": "simplyconnect-1.4.0-sources.jar",
+          "url": "simplyconnect-1.4.0-sources.jar",
+          "size": 58373,
+          "sha512": "e385fe59abb80146c35d787b003b80756489d1fb550cf1551517f4916d2af4af7e6ea32da8530450e0e9ae49f9ade1b0053c52b4713cbb7d1c6be5945b2fd04d",
+          "sha256": "c4545d044924c74cb63ee32a82b0f22fc56d7aad65d4826d83d76ccd7fd873d8",
+          "sha1": "99258507f2167cbd21697874bfd9a81b5bc2fdbd",
+          "md5": "b84b2d8c01b71c55b9e767308c64d9f1"
+        }
+      ]
+    }
+  ]
+}
