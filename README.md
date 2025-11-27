@@ -51,12 +51,12 @@ Then in your app module `build.gradle`:
 ```groovy
 dependencies {
     // Core module (mandatory)
-    implementation("com.nuvei.mobile.sdk:core:1.3.0")
+    implementation("com.nuvei.mobile.sdk:core:1.4.0")
 
     // Submodules
-    implementation("com.nuvei.mobile.sdk:googlepay:1.3.0") // For native Google Pay payments
-    implementation("com.nuvei.mobile.sdk:fields:1.3.0")
-    implementation("com.nuvei.mobile.sdk:simplyconnect:1.3.0")
+    implementation("com.nuvei.mobile.sdk:googlepay:1.4.0") // For native Google Pay payments
+    implementation("com.nuvei.mobile.sdk:fields:1.4.0")
+    implementation("com.nuvei.mobile.sdk:simplyconnect:1.4.0")
 }
 ```
 
