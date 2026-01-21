@@ -484,7 +484,7 @@ Use it to override server captions or provide translations per market.
 ####  Example Initialization
 
 ```kotlin
-CheckoutApmI18N.from(
+val apmI18n = CheckoutApmI18N.from(
     listOf(
         MethodMsg(
             methodId = "apmgw_mBank",
