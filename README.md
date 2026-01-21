@@ -525,6 +525,7 @@ CheckoutApmI18N.from(
     )
 )
 
+CheckoutApmI18NStore.init(apmI18n)
 
 ```
 * MethodMsg – Defines a single APM method (ID + localized title + optional fields).
