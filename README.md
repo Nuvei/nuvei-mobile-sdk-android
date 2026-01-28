@@ -51,12 +51,12 @@ Then in your app module `build.gradle`:
 ```groovy
 dependencies {
     // Core module (mandatory)
-    implementation("com.nuvei.mobile.sdk:core:1.4.0")
+    implementation("com.nuvei.mobile.sdk:core:1.4.1")
 
     // Submodules
-    implementation("com.nuvei.mobile.sdk:googlepay:1.4.0") // For native Google Pay payments
-    implementation("com.nuvei.mobile.sdk:fields:1.4.0")
-    implementation("com.nuvei.mobile.sdk:simplyconnect:1.4.0")
+    implementation("com.nuvei.mobile.sdk:googlepay:1.4.1") // For native Google Pay payments
+    implementation("com.nuvei.mobile.sdk:fields:1.4.1")
+    implementation("com.nuvei.mobile.sdk:simplyconnect:1.4.1")
 }
 ```
 
@@ -74,10 +74,10 @@ repositories {
 }
 
 dependencies {
-    implementation(name: 'nuvei-core-1.3.0', ext: 'aar')
-    implementation(name: 'nuvei-googlepay-1.3.0', ext: 'aar')
-    implementation(name: 'nuvei-simplyconnect-1.3.0', ext: 'aar')
-    implementation(name: 'nuvei-fields-1.3.0', ext: 'aar')
+    implementation(name: 'nuvei-core-1.4.1', ext: 'aar')
+    implementation(name: 'nuvei-googlepay-1.4.1', ext: 'aar')
+    implementation(name: 'nuvei-simplyconnect-1.4.1', ext: 'aar')
+    implementation(name: 'nuvei-fields-1.4.1', ext: 'aar')
 }
 ```
 
@@ -134,6 +134,53 @@ items.add(Item(
     name = "Test"
 ))
 
+class DeviceDetails(
+    val deviceType: String? = null,
+    val deviceName: String? = null,
+    val deviceOS: String? = null,
+    val ipAddress: String? = null
+)
+
+object DeviceDetailsProvider {
+
+    fun collect(context: Context): DeviceDetails {
+        return DeviceDetails(
+            deviceType  = context.getDeviceTypeString(),
+            deviceName  = buildDeviceName(),
+            deviceOS    = buildOsString(),
+            ipAddress   = HostAppDetails.getIPAddress(true)
+        )
+    }
+
+    private fun buildDeviceName(): String {
+        val manufacturer = Build.MANUFACTURER?.trim().orEmpty()
+        val model = Build.MODEL?.trim().orEmpty()
+        val name = (manufacturer + " " + model).trim()
+        return name.ifBlank { null } ?: "Android Device"
+    }
+
+    private fun buildOsString(): String {
+        val release = Build.VERSION.RELEASE ?: "?"
+        val sdk = Build.VERSION.SDK_INT
+        return "Android $release (SDK $sdk)"
+    }
+
+    fun Context.getDeviceTypeString(): String {
+        val uiModeManager = getSystemService(Context.UI_MODE_SERVICE) as? UiModeManager
+        val modeType = uiModeManager?.currentModeType
+
+        return when (modeType) {
+            Configuration.UI_MODE_TYPE_TELEVISION -> "TV"
+            Configuration.UI_MODE_TYPE_CAR -> "AUTO"
+            Configuration.UI_MODE_TYPE_WATCH -> "WATCH"
+            else -> {
+                val sw = resources.configuration.smallestScreenWidthDp
+                if (sw >= 600) "TABLET" else "SMARTPHONE"
+            }
+        }
+    }
+}
+
 // Create the Order object itself
 val order = Order(
     amount,
@@ -146,7 +193,8 @@ val order = Order(
     timeStamp,
     checksum,
     billingAddress,
-    items
+    items,
+    DeviceDetailsProvider.collect(context)
 )
 
 // Make the request
@@ -174,23 +222,23 @@ fun openOrder(
         }
     })
 
-// Example OrderResponse data object
-   data class OrderResponse(
-    val sessionToken: String = "",
-    val merchantId: String = "",
-    val merchantSiteId: String = "",
-    val clientRequestId: String = "",
-    val internalRequestId: Int = 0,
-    val status: String = "",
-    val errCode: Int = 0,
-    val reason: String = "",
-    val version: String = "",
-    val orderId: Int = 0,
-    val userTokenId: String = ""
-   )
+    // Example OrderResponse data object
+    data class OrderResponse(
+        val sessionToken: String = "",
+        val merchantId: String = "",
+        val merchantSiteId: String = "",
+        val clientRequestId: String = "",
+        val internalRequestId: Int = 0,
+        val status: String = "",
+        val errCode: Int = 0,
+        val reason: String = "",
+        val version: String = "",
+        val orderId: Int = 0,
+        val userTokenId: String = ""
+    )
 
 
-fun createChecksum(
+    fun createChecksum(
         amount: String,
         currency: String,
         merchantId: String,
@@ -255,9 +303,9 @@ val nvPayment = NVPayment(
 findViewById<Button>(R.id.googlePayButton)
     .setOnClickListener {
         googlePayHandler.openGooglePay(nvPayment) {
-          result ->
-          // Use the result object of type  NVCreatePaymentOutput to verify the payment status
-        }    
+                result ->
+            // Use the result object of type  NVCreatePaymentOutput to verify the payment status
+        }
     }
 ```
 ---
@@ -269,7 +317,7 @@ import com.nuvei.mobilesdk.core.model.NVPayment
 import com.nuvei.mobilesdk.core.model.NVAuthenticate3dOutput
 ```
 ```kotlin
-Nuvei.authenticate3d(        
+Nuvei.authenticate3d(
     activity: Activity,
     input: NVPayment,
     additionalParams: Map<String, Any>?,
@@ -278,8 +326,8 @@ Nuvei.authenticate3d(
     callback: Callback<NVAuthenticate3dOutput> object : Callback<NVAuthenticate3dOutput>{
     override fun onComplete(response: NVAuthenticate3dOutput) {
         //do something
-        }
     }
+}
 )
 ```
 
@@ -301,8 +349,8 @@ Nuvei.internalCreatePayment(
     callback: Callback<NVCreatePaymentOutput> object : Callback<NVCreatePaymentOutput>{
     override fun onComplete(response: NVCreatePaymentOutput) {
         //do something
-        }
     }
+}
 )
 ```
 
@@ -314,7 +362,7 @@ SimplyConnect.installments.options = arrayListOf(
     Installments.Option(Installments.Type.DEFERRED_WITH_INTEREST, intArrayOf(2,4,6)),
     Installments.Option(Installments.Type.DEFERRED_WITHOUT_INTEREST, intArrayOf(3, 6, 9, 12)),
     Installments.Option(Installments.Type.DEFERRED_WITHOUT_INTEREST_AND_GRACE_PERIOD, intArrayOf(4, 8, 12, 16, 20)),
-    )
+)
 
 SimplyConnect.installments.requirePersonalID = true // if needed
 ```
@@ -348,8 +396,8 @@ SimplyConnect.checkout(
     callback: Callback<NVOutput> = object : Callback<NVOutput>{
     override fun onComplete(response: NVOutput) {
         response
-        }
     }
+}
 ){
         response, activity, declineFallback ->
 }
@@ -572,7 +620,7 @@ with(FieldsUICustomization) {
         borderColor             = Color.parseColor("#95AAC1")                           // Border color of each text field
         textFontName            = R.font.momoregular                                    // Custom font for the input text
     }
-    
+
     // Error messages under the inputs
     with(errorBoxCustomization) {
         textFontSize = 12                                        // Error text size

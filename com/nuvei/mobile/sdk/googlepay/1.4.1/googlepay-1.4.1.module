@@ -1,0 +1,138 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.nuvei.mobile.sdk",
+    "module": "googlepay",
+    "version": "1.4.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.9"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.24"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "googlepay-1.4.1.aar",
+          "url": "googlepay-1.4.1.aar",
+          "size": 19441,
+          "sha512": "aa42a1273a68d2f750f56675d745948c251cbbdf1c46cc8945dda8443b321d8bacb2ffb9cb774e91e627779b297eec8da3230278f1707f36110bbb8e3855fe4b",
+          "sha256": "2be01007dfa8e9dde5ed59d271c898555f97c4e6e93aca8c2578c3c0702dc196",
+          "sha1": "60d63e261ff05b4a66d8e27b84aa0b20258c3cf8",
+          "md5": "80064b4cebb989a19d42f5c5d2611e7d"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.core",
+          "module": "core-ktx",
+          "version": {
+            "requires": "1.15.0"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.7.0"
+          }
+        },
+        {
+          "group": "com.google.android.material",
+          "module": "material",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "com.google.android.gms",
+          "module": "play-services-basement",
+          "version": {
+            "requires": "18.5.0"
+          }
+        },
+        {
+          "group": "com.google.android.gms",
+          "module": "play-services-wallet",
+          "version": {
+            "requires": "19.4.0"
+          }
+        },
+        {
+          "group": "com.nuvei.mobile.sdk",
+          "module": "core",
+          "version": {
+            "requires": "1.4.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.24"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "googlepay-1.4.1.aar",
+          "url": "googlepay-1.4.1.aar",
+          "size": 19441,
+          "sha512": "aa42a1273a68d2f750f56675d745948c251cbbdf1c46cc8945dda8443b321d8bacb2ffb9cb774e91e627779b297eec8da3230278f1707f36110bbb8e3855fe4b",
+          "sha256": "2be01007dfa8e9dde5ed59d271c898555f97c4e6e93aca8c2578c3c0702dc196",
+          "sha1": "60d63e261ff05b4a66d8e27b84aa0b20258c3cf8",
+          "md5": "80064b4cebb989a19d42f5c5d2611e7d"
+        }
+      ]
+    },
+    {
+      "name": "releaseSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "files": [
+        {
+          "name": "googlepay-1.4.1-sources.jar",
+          "url": "googlepay-1.4.1-sources.jar",
+          "size": 6233,
+          "sha512": "80bb44e0be5109eb945b433eaa6f388aadf5c52eb615605cf06ca326b2da3d4d613ce2e03fd92fd9f9108e78b7a924aea43cfa37e1ed69f7a59ad971884f0a9a",
+          "sha256": "4d1277096bb721188e5b325b24b5076f3bd54c9841c9eb708a4063eb92c8996b",
+          "sha1": "60ff04757b9d0d7c0bc7ba3a8c18e9c79b996a6a",
+          "md5": "85bf1812ec1ff0ad25081a7a29ee5cf2"
+        }
+      ]
+    }
+  ]
+}
