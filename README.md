@@ -89,7 +89,6 @@ Before making any calls, configure the environment:
 
 ```kotlin
 // e.g. in Application.onCreate()
-
 // Setup Nuvei
 Nuvei.setup(context, Nuvei.Environment.QA)
 // or STAGING / PROD 
@@ -271,6 +270,14 @@ Check the response for a non-null `sessionToken` then proceed to payment.
 
 1. Initialize handler and button:
 
+In your app module `build.gradle` add the Play Services Wallet dependencies:
+
+```groovy
+dependencies {
+    implementation ("com.google.android.gms:play-services-wallet:19.5.0")
+}
+```
+
 Add the Google Pay Button view to your XML
 ```xml
 <com.google.android.gms.wallet.button.PayButton
@@ -291,9 +298,17 @@ GooglePayHandler.auth3DSupport = true // pass true or false :Boolean
 
 ```kotlin
 val nvPayment = NVPayment(
-    amount = 99.99,
-    currency = "EUR",
-    sessionToken = "..."
+    sessionToken                = "sessionToken",
+    merchantId                  = "merchantId",
+    merchantSiteId              = "merchantSiteId",
+    currency                    = "currency",
+    amount                      = "amount",
+    googlePayGateway            = "googlePayGateway",
+    googlePayGatewayMerchantId  = "googlePayGatewayMerchantId",
+    googlePayMerchantId         = "googlePayMerchantId",
+    googlePayMerchantName       = "googlePayMerchantName",
+    paymentOption               = PaymentOption(), // has to be initialized, cannot be null
+    countryCode                 = "countryCode"
 )
 ```
 
@@ -302,7 +317,7 @@ val nvPayment = NVPayment(
 ```kotlin
 findViewById<Button>(R.id.googlePayButton)
     .setOnClickListener {
-        googlePayHandler.openGooglePay(nvPayment) {
+        googlePayHandler.openGooglePay(nvPayment: NVPayment, forceWebChallenge: Boolean) {
                 result ->
             // Use the result object of type  NVCreatePaymentOutput to verify the payment status
         }
