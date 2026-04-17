@@ -2,9 +2,9 @@
 
 ### Requirements
 
-| Platform       | Minimum API Level | Minimum Kotlin Version | Installation            |
-| -------------- | ----------------- | ---------------------- | ----------------------- |
-| Android 5.0+   | API 21            | 1.5.0+                 | Gradle / Maven Central  |
+| Platform     | Minimum API Level | Minimum Kotlin Version | Installation            |
+|--------------|-------------------| ---------------------- | ----------------------- |
+| Android 7.0+ | API 24            | 1.5.0+                 | Gradle / Maven Central  |
 
 ---
 
@@ -85,14 +85,53 @@ dependencies {
 
 ## Setup
 
-Before making any calls, configure the environment:
+Before making any calls, configure the environment. This is typically done once in your `Application.onCreate()`:
 
 ```kotlin
-// e.g. in Application.onCreate()
-// Setup Nuvei
-Nuvei.setup(context, Nuvei.Environment.QA)
-// or STAGING / PROD 
+// Basic setup (Production by default)
+Nuvei.setup(context)
+
+// OR explicitly set the Environment
+Nuvei.setup(context, Nuvei.Environment.STAGING)
 ```
+
+### Parameters
+- **`context`**: Your application context.
+- **`environment`**: (Optional) Use `Nuvei.Environment.STAGING` for testing and `Nuvei.Environment.PROD` for live payments.
+- **`blockCards`**: (Optional) A global set of rules to block specific card types across all SDK flows.
+
+### Mandatory vs. Optional Parameters
+To simplify integration, most behavioral and address parameters are now **optional**:
+- **Mandatory**: `amount`, `currency`, `sessionToken`, `merchantId`, `merchantSiteId`.
+- **Optional**: `billingAddress`, `shippingAddress`, `userDetails`.
+
+### Card Blocking (Optional)
+If you wish to block certain cards globally, you can provide the `blockCards` parameter during setup:
+
+```kotlin
+Nuvei.setup(context, Nuvei.Environment.STAGING, 
+    blockCards = listOf(
+        listOf("visa", "credit", "corporate"), // Blocks Visa Corporate Credit cards
+        listOf("amex", "GB", "prepaid")       // Blocks Amex Prepaid cards issued in GB
+    )
+)
+```
+
+The `blockCards` parameter is a list of rules. Each rule is a list of strings that must **all** match a card for it to be blocked (AND logic). If any one of the rules matches, the card is blocked (OR logic).
+
+Available attributes for rules include:
+- **Brand**: `visa`, `mastercard`, `amex`, etc.
+- **Type**: `credit`, `debit`.
+- **Product**: `corporate`, `classic`, `gold`, etc.
+- **Country**: 2-letter country code (e.g., `US`, `GB`).
+- **Prepaid status**: `prepaid`.
+- **Reloadable status**: `isNotReloadableCard`.
+
+Once configured globally, these rules are automatically applied across all SDK modules:
+1. **Direct Payments**: `Nuvei.authenticate3d` and `Nuvei.internalCreatePayment`.
+2. **SimplyConnect**: Validates cards before they are added or used in the checkout flow.
+3. **Fields**: Validates the card number in real-time as the user types.
+
 
 ---
 
@@ -123,8 +162,9 @@ val countryCode = (getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyMana
 
 // Setup the Billing Address
 val billingAddress = BillingAddress(
-    country = if (countryCode.isNullOrBlank()) "US" else countryCode,
-    email = "test@user.com")
+    country = countryCode ?: "US",
+    email = "test@user.com"
+)
 
 val items = arrayListOf<Item>()
 items.add(Item(
@@ -290,7 +330,7 @@ and initialize it
 
 ```kotlin
 val googlePayHandler = GooglePayHandler(activity) //Pass activity or fragment
-googlePayHandler.initializeButton(R.id.googlePayButton)
+GooglePayHandler.initializeButton(R.id.googlePayButton)
 GooglePayHandler.auth3DSupport = true // pass true or false :Boolean
 ```
 
@@ -337,8 +377,7 @@ Nuvei.authenticate3d(
     input: NVPayment,
     additionalParams: Map<String, Any>?,
     forceWebChallenge: Boolean,
-    source: String,
-    callback: Callback<NVAuthenticate3dOutput> object : Callback<NVAuthenticate3dOutput>{
+    callback: Callback<NVAuthenticate3dOutput> = object : Callback<NVAuthenticate3dOutput>{
     override fun onComplete(response: NVAuthenticate3dOutput) {
         //do something
     }
@@ -346,7 +385,7 @@ Nuvei.authenticate3d(
 )
 ```
 
-Authenticate3d will authenticate a payment. For input you must create instance of NVPayment with the payment data.
+Authenticate3d will authenticate a payment. For input you must create instance of NVPayment with the payment data. This is only a function call and does not show any UI. In order to use it the merchant must be PCI compliant.
 
 Imports needed for InternalCreatePayment:
 ```kotlin
@@ -360,8 +399,7 @@ Nuvei.internalCreatePayment(
     input: NVPayment,
     additionalParams: Map<String, Any>?,
     forceWebChallenge: Boolean,
-    source: String,
-    callback: Callback<NVCreatePaymentOutput> object : Callback<NVCreatePaymentOutput>{
+    callback: Callback<NVCreatePaymentOutput> = object : Callback<NVCreatePaymentOutput>{
     override fun onComplete(response: NVCreatePaymentOutput) {
         //do something
     }
@@ -369,7 +407,24 @@ Nuvei.internalCreatePayment(
 )
 ```
 
-InternalCreatePayment will make a payment. For input you must create instance of NVPayment with the payment data.
+InternalCreatePayment will make a payment. For input you must create instance of NVPayment with the payment data. This is only a function call and does not show any UI. In order to use it the merchant must be PCI compliant.
+
+`blockCards` is supported as an array of arrays. Each inner array is one blocking rule, and the values inside a rule may be provided in any order.
+
+```kotlin
+val nvPayment = NVPayment(
+    sessionToken = "sessionToken",
+    merchantId = "merchantId",
+    merchantSiteId = "merchantSiteId",
+    currency = "EUR",
+    amount = "10",
+    paymentOption = PaymentOption(
+        card = CardDetails("4111111111111111", "John Smith", "123", "12", "27")
+    )
+)
+```
+
+When direct `internalCreatePayment(...)` is used with raw card credentials, the SDK calls `getCardDetails` first and blocks the payment if a rule matches.
 
 ```kotlin
 SimplyConnect.installments.options = arrayListOf(
@@ -532,6 +587,10 @@ with(CheckoutI18N) {
     holderNameInvalid                   = "Invalid cardholder name"
     personalIDEmpty                     = "Please fill the ID number"
     personalIDInvalid                   = "Invalid ID number"
+    
+    // Custom message for blocked cards (Optional)
+    // If set, this overrides the dynamically generated message
+    cardBlocked                         = "This card is not supported in your region"
 }
 ```
 This creates instance of `CheckoutI18n` with your own localized texts. You can initialize it with the properties and text you want to modify.
@@ -550,8 +609,8 @@ Use it to override server captions or provide translations per market.
 val apmI18n = CheckoutApmI18N.from(
     listOf(
         MethodMsg(
-            methodId = "apmgw_mBank",
-            title = "MyBank",
+            methodId = "apmgw_mBank",   
+            title = "MyBank",           
             fields = listOf(
                 FieldMsg("bank_account_number", "Bank Account Number", "Invalid account number"),
                 FieldMsg("bank_code", "Bank Code", "Invalid bank code"),
@@ -561,17 +620,17 @@ val apmI18n = CheckoutApmI18N.from(
         MethodMsg("apmgw_Neosurf", title = "Neosurf"),
         MethodMsg("apmgw_expresscheckout", title = "PayPal", fields = emptyList()),
         MethodMsg(
-            methodId = "apmgw_Open_Banking",
-            title = "Online Transfer",
+            methodId = "apmgw_Open_Banking",// Payment method key
+            title = "Online Transfer",      // Payment method name
             fields = listOf(
-                FieldMsg("ob_sort_code", "Sort Code", "Please enter a valid sort code"),
-                FieldMsg("ob_iban", "IBAN", "Invalid IBAN"),
-                FieldMsg("ob_account_number", "Account Number", "Invalid account number"),
+                FieldMsg("ob_sort_code", "Sort Code", "Please enter a valid sort code"),    // Field of the PM
+                FieldMsg("ob_iban", "IBAN", "Invalid IBAN"),                                // Field of the PM
+                FieldMsg("ob_account_number", "Account Number", "Invalid account number"),  // Field of the PM
                 FieldMsg(
-                    key = "ob_bank_id",
-                    text = "Bank",
-                    error = "Please choose a bank",
-                    options = listOf(
+                    key = "ob_bank_id",             // Payment field key (field of the apmgw_Open_Banking PM)
+                    text = "Bank",                  // Name of the payment filed to be used
+                    error = "Please choose a bank", // error of the filed when no msg
+                    options = listOf(               // if the filed is a dropdown - list the keys to override them
                         OptionMsg("ob-barclays", "Barclays"),
                         OptionMsg("ob-hsbc", "HSBC"),
                         OptionMsg("ob-revolut", "Revolut")
@@ -668,6 +727,10 @@ with(FieldsI18N) {
     cvvInvalid                  = "CVV is invalid"
     holderNameEmpty             = "Please fill the card holder name"
     holderNameInvalid           = "Invalid cardholder name"
+
+    // Custom message for blocked cards (Optional)
+    // If set, this overrides the dynamically generated message
+    cardBlocked                 = "This card is not supported in your region"
 }
 ```
 Callbacks:
@@ -771,12 +834,13 @@ val nvPayment = NVPayment(
     currency = transactionDetails.currency,
     amount = transactionDetails.amount,
     paymentOption = paymentOption,
-    userTokenId = transactionDetails.userTokenId,
     clientUniqueId = transactionDetails.clientUniqueId,
     clientRequestId = transactionDetails.clientRequestId)
 ```
 
 Nuvei.internalCreatePayment will create a payment with a token. For this method you don't need the `Fields` view . You have to pass an object of type `NVPayment` in which you have to put the token and optionally the card holder name(`PaymentOption` data model).
+
+`blockCards` cannot be evaluated for direct token-only payments when the SDK does not have raw card credentials or a `userPaymentOptionId` to inspect.
 
 
 ---

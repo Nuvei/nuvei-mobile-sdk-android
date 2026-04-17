@@ -1,0 +1,197 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.nuvei.mobile.sdk",
+    "module": "core",
+    "version": "1.4.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.9"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.24"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core-1.4.2.aar",
+          "url": "core-1.4.2.aar",
+          "size": 800515,
+          "sha512": "21334428742834f4ebbd32f82f707ad7bfbe461af948b7f7dd54ab042fd8179245feefcf4f43497347490c791580eb7afb749e12166c5353c7a1046caa449a74",
+          "sha256": "9ca87831fc420fc319c39dffa60b85fd762fffbf4562cfc8209b3c49e63bb666",
+          "sha1": "5c55097e925c21f2649b1d2d21a8252f5755f287",
+          "md5": "533a4e0e8ba14e67137caf00926ae280"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.core",
+          "module": "core-ktx",
+          "version": {
+            "requires": "1.15.0"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.7.0"
+          }
+        },
+        {
+          "group": "com.google.android.material",
+          "module": "material",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "com.google.code.gson",
+          "module": "gson",
+          "version": {
+            "requires": "2.11.0"
+          }
+        },
+        {
+          "group": "com.squareup.retrofit2",
+          "module": "converter-gson",
+          "version": {
+            "requires": "2.5.0"
+          }
+        },
+        {
+          "group": "com.squareup.retrofit2",
+          "module": "retrofit",
+          "version": {
+            "requires": "2.11.0"
+          }
+        },
+        {
+          "group": "com.squareup.okhttp3",
+          "module": "okhttp",
+          "version": {
+            "requires": "4.11.0"
+          }
+        },
+        {
+          "group": "org.bouncycastle",
+          "module": "bcpkix-jdk15on",
+          "version": {
+            "requires": "1.70"
+          }
+        },
+        {
+          "group": "org.bitbucket.b_c",
+          "module": "jose4j",
+          "version": {
+            "requires": "0.9.5"
+          }
+        },
+        {
+          "group": "org.apache.cxf",
+          "module": "cxf-rt-rs-security-jose",
+          "version": {
+            "requires": "4.0.0"
+          }
+        },
+        {
+          "group": "net.minidev",
+          "module": "json-smart",
+          "version": {
+            "requires": "2.3"
+          }
+        },
+        {
+          "group": "com.google.crypto.tink",
+          "module": "tink",
+          "version": {
+            "requires": "1.15.0"
+          },
+          "excludes": [
+            {
+              "group": "*",
+              "module": "guava-jdk5"
+            },
+            {
+              "group": "com.google.auto.service",
+              "module": "auto-service"
+            }
+          ]
+        },
+        {
+          "group": "com.github.stephenc.jcip",
+          "module": "jcip-annotations",
+          "version": {
+            "requires": "1.0-1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.24"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core-1.4.2.aar",
+          "url": "core-1.4.2.aar",
+          "size": 800515,
+          "sha512": "21334428742834f4ebbd32f82f707ad7bfbe461af948b7f7dd54ab042fd8179245feefcf4f43497347490c791580eb7afb749e12166c5353c7a1046caa449a74",
+          "sha256": "9ca87831fc420fc319c39dffa60b85fd762fffbf4562cfc8209b3c49e63bb666",
+          "sha1": "5c55097e925c21f2649b1d2d21a8252f5755f287",
+          "md5": "533a4e0e8ba14e67137caf00926ae280"
+        }
+      ]
+    },
+    {
+      "name": "releaseSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "files": [
+        {
+          "name": "core-1.4.2-sources.jar",
+          "url": "core-1.4.2-sources.jar",
+          "size": 1062585,
+          "sha512": "8d57dbd444dc9905a978a0cd2b187dba90628a6056d537cd5317b116aae27009fac344eb111877e93bbc6bf4f105b8d5478aa1769d6b8636d1cf91aa2bf09b6b",
+          "sha256": "a4bd71e6fea555760ca9f0855e97ef734a179f987328cdf3336ab95c78f97571",
+          "sha1": "013bfb5bdad20713bc8d850fa25be998e7c2b072",
+          "md5": "51ac7be4991c934f6d63ba03821cecc8"
+        }
+      ]
+    }
+  ]
+}
