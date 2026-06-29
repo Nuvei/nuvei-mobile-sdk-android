@@ -160,7 +160,8 @@ val checksum: String = createChecksum(amount, currency, merchantId, merchantSite
 // Get country based on the SIM carrier
 val countryCode = (getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager)?.networkCountryIso?.uppercase()
 
-// Setup the Billing Address
+// Setup the Billing Address (Optional)
+// You can provide a minimal address or omit it entirely
 val billingAddress = BillingAddress(
     country = countryCode ?: "US",
     email = "test@user.com"
@@ -474,6 +475,60 @@ SimplyConnect.checkout(
 ```
 Checkout will load a screen with saved cards and other payment options. For input you must create instance of NVPayment with the payment data. The callback tells you when the proccess is finished either successfully or with an error. declineFallbackDecision tells you when there is an error.
 
+#### 🔄 Payment Form Events & Lifecycle
+
+To monitor user inputs, field focus changes, and the overall validation state of the form globally within the SimplyConnect checkout flow, you can set the following callbacks on the `SimplyConnect` object:
+
+```kotlin
+// Monitor input edits, focus changes, paste events, and validation errors globally across all checkout payment methods
+SimplyConnect.onPaymentFormChange = { pm, label, action, oldValue, newValue, validation, paste ->
+    // pm:         The selected payment method code (e.g. "cc_card", "upo")
+    // label:      The localized name of the field (e.g., "Card number", "CVV")
+    // action:     "focus" or "blur"
+    // oldValue:   The value before the event (securely masked, or empty string if blank)
+    // newValue:   The value after the event (securely masked, or empty string if blank)
+    // validation: The localized error message (e.g., "Card number is invalid"). Returns "" (empty string) if valid or on the initial focus.
+    // paste:      true if the text value was pasted from the clipboard during the session
+    
+    Log.d("NuveiSdk", "Checkout Field change: pm=$pm, label=$label, action=$action, error=$validation, pasted=$paste")
+}
+
+// Monitor overall checkout form readiness (e.g., enable/disable custom submit buttons or track validity)
+SimplyConnect.onFormValidated = { isFormValid, invalidFields ->
+    // isFormValid:   true if all required inputs are populated and valid
+    // invalidFields: List of field identifiers currently failing validation (e.g., ["cc_num", "cc_exp"])
+    
+    Log.d("NuveiSdk", "Checkout Validation: isValid=$isFormValid, invalidFields=$invalidFields")
+}
+```
+
+##### 🔍 Querying Card Details manually from Event Callbacks
+
+If you need to retrieve card BIN details (issuer country, brand, type, block status) dynamically from the form event callbacks using raw inputs, you can call the `Nuvei.getCardDetails` API:
+
+```kotlin
+SimplyConnect.onPaymentFormChange = { pm, label, action, oldValue, newValue, validation, paste ->
+    // Example: Trigger manual card details lookup
+    val cardDetailsInput = NVCardDetailsInput(
+        sessionToken = sessionToken,
+        merchantId = merchantId,
+        merchantSiteId = merchantSiteId,
+        cardNumber = rawCardNumber // Raw credit card number string
+    )
+    
+    Nuvei.getCardDetails(cardDetailsInput, object : InternalCallback<NVCardDetailsOutput> {
+        override fun onSuccess(response: NVCardDetailsOutput) {
+            Log.d("NuveiSdk", "Success resolving card brand: ${response.brand}")
+        }
+        override fun onFailure(result: String, errorCode: Int?, errorDescription: String?, rawResult: Map<String, Any>?) {
+            Log.e("NuveiSdk", "Failed to resolve card details: $errorDescription")
+        }
+    })
+}
+```
+
+
+
 #### 🎨 SimplyConnect UI Customization
 
 Use SimplyConnectUICustomization to style the SimplyConnect checkout screen (toolbar, labels, text fields, error boxes, buttons) so it matches your app.
@@ -740,15 +795,66 @@ creditCardField.onInputUpdated = { hasFocus, еxpMonth, еxpYear  -> }
 
 creditCardField.onInputValidated = { errors -> }
 
-creditCardField.onCardDetailsUpdate = { output, error ->
-    creditCardField.showCardNumberError("ERROR MESSAGE")
+creditCardField.onCardDetailsUpdate = { output, additionalInfo ->
+    if (output != null) {
+        // Success: Card bin details resolved successfully
+        Log.d("NuveiSdk", "Card brand: ${output.brand}")
+    } else if (additionalInfo != null) {
+        // Error: card verification failed or was blocked (contains "result", "errorCode", "errorDescription")
+        Log.e("NuveiSdk", "Card details error: $additionalInfo")
+        val errorMsg = additionalInfo["errorDescription"] as? String ?: "Error"
+        creditCardField.showCardNumberError(errorMsg)
+    }
+}
+
+// Monitor input edits, focus changes, paste events, and validation errors for custom fields
+creditCardField.onPaymentFormChange = { pm, label, action, oldValue, newValue, validation, paste ->
+    // pm:         "cc_card"
+    // label:      The localized name of the field (e.g., "Card number", "CVV")
+    // action:     "focus" or "blur"
+    // oldValue:   The value before the event (securely masked, or empty string if blank)
+    // newValue:   The value after the event (securely masked, or empty string if blank)
+    // validation: The localized error message (e.g., "Card number is invalid"). Returns "" (empty string) if valid or on the initial focus.
+    // paste:      true if the text value was pasted from the clipboard during the session
+    
+    Log.d("NuveiSdk", "Field updated: pm=$pm, label=$label, action=$action, error=$validation, pasted=$paste")
+}
+
+// Control custom Pay/Submit button state based on overall form validity
+creditCardField.onFormValidated = { isFormValid, invalidFields ->
+    // isFormValid:   true if all required inputs are populated and valid
+    // invalidFields: List of field identifiers currently failing validation (e.g., ["cc_num", "cc_exp"])
+    
+    payButton.isEnabled = isFormValid
 }
 ```
+
+##### 🔍 Querying Card Details manually from Event Callbacks
+
+Since the `NuveiCreditCardField` view implements `NuveiCardField`, you can pass the view instance directly to the `Nuvei.getCardDetails(...)` API:
+
+```kotlin
+creditCardField.onPaymentFormChange = { pm, label, action, oldValue, newValue, validation, paste ->
+    // Check if the card number field changed, is not empty, and has no validation errors
+    if (label == "Card number" && validation.isEmpty()) {
+        Nuvei.getCardDetails(creditCardField, object : CardDetailsCallback {
+            override fun onComplete(response: NVCardDetailsOutput?, error: Error?) {
+                if (response != null) {
+                    Log.d("NuveiSdk", "Card brand: ${response.brand}, Issuer country: ${response.issuerCountry}")
+                }
+            }
+        })
+    }
+}
+```
+
 
 This creates instance of `NuveiCreditCardField`.
 * `OnInputUpdated` is a callback that tells you when a field text is modified and when it loses focus. Also if a valid card expiration date is provided in the expiry date field, it will be split and returned in the еxpMonth and еxpYear parameters, otherwise they will be null
 * `OnInputValidated` is a callback that gives you a list of errors if there are any after validation of a field.
-* `OnCardDetailsUpdated` is a callback that gives you detailed information about the card after the card number is valid. Then based on your requirements you can call `creditCardField.showCardNumberError(message:)` and your error message will be shown under the card number field.
+* `OnCardDetailsUpdate` is a callback that gives you detailed information about the card after the card number is valid (returned as `output`). In case of a validation failure or card blocking, `output` is `null` and `additionalInfo` (a `Map<String, Any>?`) is populated with the error details (using keys `"result"`, `"errorCode"`, and `"errorDescription"`), matching Simply Connect's callback structure. Based on this info, you can call `creditCardField.showCardNumberError(message)` to show a custom error under the card number field.
+
+
 
 #### 💳 NVCardDetailsOutput Example
 
