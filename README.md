@@ -2,9 +2,9 @@
 
 ### Requirements
 
-| Platform     | Minimum API Level | Minimum Kotlin Version | Installation            |
-|--------------|-------------------| ---------------------- | ----------------------- |
-| Android 7.0+ | API 24            | 1.5.0+                 | Gradle / Maven Central  |
+| Platform     | Minimum API Level | Compile / Target SDK | Minimum Kotlin Version | Installation            |
+|--------------|-------------------|----------------------| ---------------------- | ----------------------- |
+| Android 7.0+ | API 24            | API 36 (Android 16)  | 1.5.0+                 | Gradle / Maven Central  |
 
 ---
 
@@ -51,12 +51,12 @@ Then in your app module `build.gradle`:
 ```groovy
 dependencies {
     // Core module (mandatory)
-    implementation("com.nuvei.mobile.sdk:core:1.4.1")
+    implementation("com.nuvei.mobile.sdk:core:1.4.5")
 
     // Submodules
-    implementation("com.nuvei.mobile.sdk:googlepay:1.4.1") // For native Google Pay payments
-    implementation("com.nuvei.mobile.sdk:fields:1.4.1")
-    implementation("com.nuvei.mobile.sdk:simplyconnect:1.4.1")
+    implementation("com.nuvei.mobile.sdk:googlepay:1.4.5") // For native Google Pay payments
+    implementation("com.nuvei.mobile.sdk:fields:1.4.5")
+    implementation("com.nuvei.mobile.sdk:simplyconnect:1.4.5")
 }
 ```
 
@@ -74,10 +74,10 @@ repositories {
 }
 
 dependencies {
-    implementation(name: 'nuvei-core-1.4.1', ext: 'aar')
-    implementation(name: 'nuvei-googlepay-1.4.1', ext: 'aar')
-    implementation(name: 'nuvei-simplyconnect-1.4.1', ext: 'aar')
-    implementation(name: 'nuvei-fields-1.4.1', ext: 'aar')
+    implementation(name: 'nuvei-core-1.4.5', ext: 'aar')
+    implementation(name: 'nuvei-googlepay-1.4.5', ext: 'aar')
+    implementation(name: 'nuvei-simplyconnect-1.4.5', ext: 'aar')
+    implementation(name: 'nuvei-fields-1.4.5', ext: 'aar')
 }
 ```
 
@@ -117,7 +117,7 @@ Nuvei.setup(context, Nuvei.Environment.STAGING,
 )
 ```
 
-The `blockCards` parameter is a list of rules. Each rule is a list of strings that must **all** match a card for it to be blocked (AND logic). If any one of the rules matches, the card is blocked (OR logic).
+The `blockCards` parameter is a list of rules. Each rule is a list of strings that must **all** match a card for it to be blocked (AND logic). If any one of the rules matches, the card is blocked (OR logic). 
 
 Available attributes for rules include:
 - **Brand**: `visa`, `mastercard`, `amex`, etc.
@@ -482,7 +482,7 @@ To monitor user inputs, field focus changes, and the overall validation state of
 ```kotlin
 // Monitor input edits, focus changes, paste events, and validation errors globally across all checkout payment methods
 SimplyConnect.onPaymentFormChange = { pm, label, action, oldValue, newValue, validation, paste ->
-    // pm:         The selected payment method code (e.g. "cc_card", "upo")
+    // pm:         The selected payment method code ("cc_card", "upo" or "apm")
     // label:      The localized name of the field (e.g., "Card number", "CVV")
     // action:     "focus" or "blur"
     // oldValue:   The value before the event (securely masked, or empty string if blank)
@@ -502,28 +502,25 @@ SimplyConnect.onFormValidated = { isFormValid, invalidFields ->
 }
 ```
 
-##### 🔍 Querying Card Details manually from Event Callbacks
+> APM picker fields report `focus` when the picker opens and `blur` when a value is
+> selected or the picker is dismissed.
 
-If you need to retrieve card BIN details (issuer country, brand, type, block status) dynamically from the form event callbacks using raw inputs, you can call the `Nuvei.getCardDetails` API:
+##### 🔍 Querying Card Details manually in SimplyConnect
+
+While card details lookup (for card brand logos, installments, DCC, or card block checking) is managed automatically by SimplyConnect checkout internally, the client can also trigger the card details query manually at any point during checkout (for example, inside the `onPaymentFormChange` listener) by passing the `SimplyConnect` object to `Nuvei.getCardDetails`. The SDK will extract inputs internally from the active checkout sheet:
 
 ```kotlin
 SimplyConnect.onPaymentFormChange = { pm, label, action, oldValue, newValue, validation, paste ->
-    // Example: Trigger manual card details lookup
-    val cardDetailsInput = NVCardDetailsInput(
-        sessionToken = sessionToken,
-        merchantId = merchantId,
-        merchantSiteId = merchantSiteId,
-        cardNumber = rawCardNumber // Raw credit card number string
-    )
-    
-    Nuvei.getCardDetails(cardDetailsInput, object : InternalCallback<NVCardDetailsOutput> {
-        override fun onSuccess(response: NVCardDetailsOutput) {
-            Log.d("NuveiSdk", "Success resolving card brand: ${response.brand}")
-        }
-        override fun onFailure(result: String, errorCode: Int?, errorDescription: String?, rawResult: Map<String, Any>?) {
-            Log.e("NuveiSdk", "Failed to resolve card details: $errorDescription")
-        }
-    })
+    // Example: Manual BIN query when card number has no validation errors and is not empty
+    if (label == "Card number" && validation.isEmpty() && newValue.isNotEmpty()) {
+        Nuvei.getCardDetails(SimplyConnect, object : CardDetailsCallback {
+            override fun onComplete(response: NVCardDetailsOutput?, error: Error?) {
+                if (response != null) {
+                    Log.d("NuveiSdk", "Card brand: ${response.brand}, Country: ${response.issuerCountry}")
+                }
+            }
+        })
+    }
 }
 ```
 
@@ -829,24 +826,22 @@ creditCardField.onFormValidated = { isFormValid, invalidFields ->
 }
 ```
 
-##### 🔍 Querying Card Details manually from Event Callbacks
+##### 🔍 Querying Card Details manually
 
-Since the `NuveiCreditCardField` view implements `NuveiCardField`, you can pass the view instance directly to the `Nuvei.getCardDetails(...)` API:
+If you want to trigger card details resolution manually (e.g. from a custom button click), you can call `Nuvei.getCardDetails` by passing the `creditCardField` view directly. You do not pass the card number, as the SDK extracts it from the view internally:
 
 ```kotlin
-creditCardField.onPaymentFormChange = { pm, label, action, oldValue, newValue, validation, paste ->
-    // Check if the card number field changed, is not empty, and has no validation errors
-    if (label == "Card number" && validation.isEmpty()) {
-        Nuvei.getCardDetails(creditCardField, object : CardDetailsCallback {
-            override fun onComplete(response: NVCardDetailsOutput?, error: Error?) {
-                if (response != null) {
-                    Log.d("NuveiSdk", "Card brand: ${response.brand}, Issuer country: ${response.issuerCountry}")
-                }
-            }
-        })
+Nuvei.getCardDetails(creditCardField, object : CardDetailsCallback {
+    override fun onComplete(response: NVCardDetailsOutput?, error: Error?) {
+        if (response != null) {
+            Log.d("NuveiSdk", "Card brand: ${response.brand}, Issuer country: ${response.issuerCountry}")
+        } else {
+            Log.e("NuveiSdk", "Error: ${error?.errorDescription}")
+        }
     }
-}
+})
 ```
+
 
 
 This creates instance of `NuveiCreditCardField`.
@@ -948,6 +943,28 @@ Nuvei.internalCreatePayment will create a payment with a token. For this method 
 
 `blockCards` cannot be evaluated for direct token-only payments when the SDK does not have raw card credentials or a `userPaymentOptionId` to inspect.
 
+
+### 🔍 Stand-alone / Custom Card Details Lookup
+
+If you are not using the Fields or SimplyConnect modules and have your own custom card input forms, you can call the custom `Nuvei.getCardDetails` function by passing your own `NVCardDetailsInput` (which includes the raw card number):
+
+```kotlin
+val cardDetailsInput = NVCardDetailsInput(
+    sessionToken = sessionToken,
+    merchantId = merchantId,
+    merchantSiteId = merchantSiteId,
+    cardNumber = rawCardNumber // Raw credit card number string from your custom inputs
+)
+
+Nuvei.getCardDetails(cardDetailsInput, object : InternalCallback<NVCardDetailsOutput> {
+    override fun onSuccess(response: NVCardDetailsOutput) {
+        Log.d("NuveiSdk", "Success resolving card brand: ${response.brand}")
+    }
+    override fun onFailure(result: String, errorCode: Int?, errorDescription: String?, rawResult: Map<String, Any>?) {
+        Log.e("NuveiSdk", "Failed to resolve card details: $errorDescription")
+    }
+})
+```
 
 ---
 

@@ -1,0 +1,138 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.nuvei.mobile.sdk",
+    "module": "fields",
+    "version": "1.4.5",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.9"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "8.7.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.24"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "fields-1.4.5.aar",
+          "url": "fields-1.4.5.aar",
+          "size": 80588,
+          "sha512": "9bcef8df3208b04f198fdcdd15faacbe4d2e08d688df07189b80d07da91e0fcc26f0950388c09bc7042ca14e938823fbc44ed571012e2ad248504a33ba48b82d",
+          "sha256": "8b22420ac5357155e3ceeda77a7c9fd10a788a7fddf74b81991f25d2b058bb54",
+          "sha1": "c7432303b65ebc0368893aeaa24f1c5d1e0d0b33",
+          "md5": "af66d5df13758a572b218563109a4070"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.core",
+          "module": "core-ktx",
+          "version": {
+            "requires": "1.15.0"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.7.0"
+          }
+        },
+        {
+          "group": "com.google.android.material",
+          "module": "material",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "com.nuvei.mobile.sdk",
+          "module": "core",
+          "version": {
+            "requires": "1.4.5"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "8.7.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.24"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "fields-1.4.5.aar",
+          "url": "fields-1.4.5.aar",
+          "size": 80588,
+          "sha512": "9bcef8df3208b04f198fdcdd15faacbe4d2e08d688df07189b80d07da91e0fcc26f0950388c09bc7042ca14e938823fbc44ed571012e2ad248504a33ba48b82d",
+          "sha256": "8b22420ac5357155e3ceeda77a7c9fd10a788a7fddf74b81991f25d2b058bb54",
+          "sha1": "c7432303b65ebc0368893aeaa24f1c5d1e0d0b33",
+          "md5": "af66d5df13758a572b218563109a4070"
+        }
+      ]
+    },
+    {
+      "name": "releaseSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "files": [
+        {
+          "name": "fields-1.4.5-sources.jar",
+          "url": "fields-1.4.5-sources.jar",
+          "size": 28329,
+          "sha512": "8efed3f05552e90d110e1b12a452aeed4034687445c6c2ee46acfb1e7d156535b7eb175d8641177f3d0a4d7d9687b9653db157342de157c40a99aa6e346e5968",
+          "sha256": "8c4719137eb74f170732735d7f992b9de927aaf26553907d9f4050c17710e9cb",
+          "sha1": "08fa242769de072504088e34b284c09d9dc26977",
+          "md5": "4d9d568b6e12f6f3dde5f4b7eb04454f"
+        }
+      ]
+    }
+  ]
+}
