@@ -1,0 +1,152 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.nuvei.mobile.sdk",
+    "module": "googlepay",
+    "version": "1.4.6",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.9"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.24"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "googlepay-1.4.6.aar",
+          "url": "googlepay-1.4.6.aar",
+          "size": 19279,
+          "sha512": "4a9576279277e172b99d6b615331c928737adcb9d3091f0b2d5fbf7713612af14b1bfb0129697b492108d1da7f28cfef8ee4af31b820cd4003d193ff37cb9dcc",
+          "sha256": "bb1316832d1355e5f93999b04bb0731a34742a365a9a6f7632ec184da3df19c9",
+          "sha1": "0b49b133507c91a3e136b7de5657f788919fb41a",
+          "md5": "3a75dda7e50f3bdf41e047f82e49f241"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.core",
+          "module": "core-ktx",
+          "version": {
+            "requires": "1.15.0"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.7.0"
+          }
+        },
+        {
+          "group": "com.google.android.material",
+          "module": "material",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "com.google.android.gms",
+          "module": "play-services-basement",
+          "version": {
+            "requires": "18.5.0"
+          }
+        },
+        {
+          "group": "com.google.android.gms",
+          "module": "play-services-wallet",
+          "version": {
+            "requires": "19.4.0"
+          }
+        },
+        {
+          "group": "com.google.code.gson",
+          "module": "gson",
+          "version": {
+            "requires": "2.11.0"
+          }
+        },
+        {
+          "group": "com.squareup.retrofit2",
+          "module": "converter-gson",
+          "version": {
+            "requires": "2.11.0"
+          }
+        },
+        {
+          "group": "com.nuvei.mobile.sdk",
+          "module": "core",
+          "version": {
+            "requires": "1.4.6"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.24"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "googlepay-1.4.6.aar",
+          "url": "googlepay-1.4.6.aar",
+          "size": 19279,
+          "sha512": "4a9576279277e172b99d6b615331c928737adcb9d3091f0b2d5fbf7713612af14b1bfb0129697b492108d1da7f28cfef8ee4af31b820cd4003d193ff37cb9dcc",
+          "sha256": "bb1316832d1355e5f93999b04bb0731a34742a365a9a6f7632ec184da3df19c9",
+          "sha1": "0b49b133507c91a3e136b7de5657f788919fb41a",
+          "md5": "3a75dda7e50f3bdf41e047f82e49f241"
+        }
+      ]
+    },
+    {
+      "name": "releaseSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "files": [
+        {
+          "name": "googlepay-1.4.6-sources.jar",
+          "url": "googlepay-1.4.6-sources.jar",
+          "size": 6921,
+          "sha512": "4d650f9a529f969a5a4ef99520d85a415e21bf25537f0e91462f54bae29ebf2824d3f5d83cc8606e6d67a0ee5a810ad94371b34851b180be96957725ae0ce9c4",
+          "sha256": "36938af707cbf0a107313d10958fb27b21a10216497a49d1026e8b0cee63609a",
+          "sha1": "c641eb9d4616887023efecdc99fc74762182be22",
+          "md5": "f80c88fa62ed5f2cfdc6621c5db54820"
+        }
+      ]
+    }
+  ]
+}

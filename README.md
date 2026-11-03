@@ -51,12 +51,12 @@ Then in your app module `build.gradle`:
 ```groovy
 dependencies {
     // Core module (mandatory)
-    implementation("com.nuvei.mobile.sdk:core:1.4.5")
+    implementation("com.nuvei.mobile.sdk:core:1.4.6")
 
     // Submodules
-    implementation("com.nuvei.mobile.sdk:googlepay:1.4.5") // For native Google Pay payments
-    implementation("com.nuvei.mobile.sdk:fields:1.4.5")
-    implementation("com.nuvei.mobile.sdk:simplyconnect:1.4.5")
+    implementation("com.nuvei.mobile.sdk:googlepay:1.4.6") // For native Google Pay payments
+    implementation("com.nuvei.mobile.sdk:fields:1.4.6")
+    implementation("com.nuvei.mobile.sdk:simplyconnect:1.4.6")
 }
 ```
 
@@ -74,12 +74,64 @@ repositories {
 }
 
 dependencies {
-    implementation(name: 'nuvei-core-1.4.5', ext: 'aar')
-    implementation(name: 'nuvei-googlepay-1.4.5', ext: 'aar')
-    implementation(name: 'nuvei-simplyconnect-1.4.5', ext: 'aar')
-    implementation(name: 'nuvei-fields-1.4.5', ext: 'aar')
+    implementation(name: 'core-1.4.6', ext: 'aar')
+    implementation(name: 'googlepay-1.4.6', ext: 'aar')
+    implementation(name: 'simplyconnect-1.4.6', ext: 'aar')
+    implementation(name: 'fields-1.4.6', ext: 'aar')
 }
 ```
+
+Module requirements:
+- `core` is required by every other module.
+- `simplyconnect` also requires `googlepay`.
+- `fields` requires only `core`.
+
+#### Third-party dependencies
+
+`.aar` files do not include their dependencies, so you must add them yourself. Without them the app builds but crashes at runtime with `NoClassDefFoundError`. Gradle (Maven) installation adds these automatically.
+
+Required by all modules (`core`):
+
+```groovy
+dependencies {
+    implementation 'androidx.core:core-ktx:1.15.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'com.google.code.gson:gson:2.11.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'org.bouncycastle:bcpkix-jdk18on:1.80'
+    implementation 'org.bitbucket.b_c:jose4j:0.9.6'
+    implementation 'net.minidev:json-smart:2.5.2'
+    implementation('com.google.crypto.tink:tink:1.15.0') {
+        exclude group: 'com.google.auto.service', module: 'auto-service'
+        exclude module: 'guava-jdk5'
+    }
+    implementation 'com.google.protobuf:protobuf-java:3.25.5'
+    implementation 'com.github.stephenc.jcip:jcip-annotations:1.0-1'
+}
+```
+
+Additionally, per module:
+
+```groovy
+dependencies {
+    // googlepay
+    implementation 'com.google.android.gms:play-services-basement:18.5.0'
+    implementation 'com.google.android.gms:play-services-wallet:19.4.0'
+
+    // simplyconnect
+    implementation 'com.google.android.gms:play-services-wallet:19.4.0'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    implementation 'androidx.databinding:viewbinding:8.7.2'
+
+    // fields
+    implementation 'androidx.databinding:viewbinding:8.7.2'
+}
+```
+
+> **Upgrading from 1.4.5:** replace `org.bouncycastle:bcpkix-jdk15on` with `org.bouncycastle:bcpkix-jdk18on:1.80`, remove `org.apache.cxf:cxf-rt-rs-security-jose`, and add `com.google.protobuf:protobuf-java:3.25.5`.
 
 ---
 
