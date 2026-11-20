@@ -51,12 +51,12 @@ Then in your app module `build.gradle`:
 ```groovy
 dependencies {
     // Core module (mandatory)
-    implementation("com.nuvei.mobile.sdk:core:1.4.6")
+    implementation("com.nuvei.mobile.sdk:core:1.4.7")
 
     // Submodules
-    implementation("com.nuvei.mobile.sdk:googlepay:1.4.6") // For native Google Pay payments
-    implementation("com.nuvei.mobile.sdk:fields:1.4.6")
-    implementation("com.nuvei.mobile.sdk:simplyconnect:1.4.6")
+    implementation("com.nuvei.mobile.sdk:googlepay:1.4.7") // For native Google Pay payments
+    implementation("com.nuvei.mobile.sdk:fields:1.4.7")
+    implementation("com.nuvei.mobile.sdk:simplyconnect:1.4.7")
 }
 ```
 
@@ -74,10 +74,10 @@ repositories {
 }
 
 dependencies {
-    implementation(name: 'core-1.4.6', ext: 'aar')
-    implementation(name: 'googlepay-1.4.6', ext: 'aar')
-    implementation(name: 'simplyconnect-1.4.6', ext: 'aar')
-    implementation(name: 'fields-1.4.6', ext: 'aar')
+    implementation(name: 'core-1.4.7', ext: 'aar')
+    implementation(name: 'googlepay-1.4.7', ext: 'aar')
+    implementation(name: 'simplyconnect-1.4.7', ext: 'aar')
+    implementation(name: 'fields-1.4.7', ext: 'aar')
 }
 ```
 
@@ -101,15 +101,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.11.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
-    implementation 'org.bouncycastle:bcpkix-jdk18on:1.80'
-    implementation 'org.bitbucket.b_c:jose4j:0.9.6'
-    implementation 'net.minidev:json-smart:2.5.2'
-    implementation('com.google.crypto.tink:tink:1.15.0') {
-        exclude group: 'com.google.auto.service', module: 'auto-service'
-        exclude module: 'guava-jdk5'
-    }
-    implementation 'com.google.protobuf:protobuf-java:3.25.5'
-    implementation 'com.github.stephenc.jcip:jcip-annotations:1.0-1'
 }
 ```
 
@@ -131,7 +122,7 @@ dependencies {
 }
 ```
 
-> **Upgrading from 1.4.5:** replace `org.bouncycastle:bcpkix-jdk15on` with `org.bouncycastle:bcpkix-jdk18on:1.80`, remove `org.apache.cxf:cxf-rt-rs-security-jose`, and add `com.google.protobuf:protobuf-java:3.25.5`.
+> **Upgrading from 1.4.6:** the SDK no longer needs `org.bouncycastle:bcpkix-jdk18on`, `org.bitbucket.b_c:jose4j`, `net.minidev:json-smart`, `com.google.crypto.tink:tink`, `com.google.protobuf:protobuf-java` or `com.github.stephenc.jcip:jcip-annotations`. You can remove them unless your app uses them directly.
 
 ---
 
@@ -437,6 +428,8 @@ Nuvei.authenticate3d(
 }
 )
 ```
+
+`forceWebChallenge` is deprecated and ignored: the 3-D Secure challenge always runs in a web view.
 
 Authenticate3d will authenticate a payment. For input you must create instance of NVPayment with the payment data. This is only a function call and does not show any UI. In order to use it the merchant must be PCI compliant.
 

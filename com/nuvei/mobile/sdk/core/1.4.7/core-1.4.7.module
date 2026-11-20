@@ -1,0 +1,152 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.nuvei.mobile.sdk",
+    "module": "core",
+    "version": "1.4.7",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.9"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.24"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core-1.4.7.aar",
+          "url": "core-1.4.7.aar",
+          "size": 349441,
+          "sha512": "ae6f9e83d502b9652e31e060eda5d98146cfd25e401c9cb067730aaa89d414af75276ec58ebef361d436a53119e5a2074b34bb8b90a4ebadfd1cc2bdd50d128a",
+          "sha256": "76709a41a9d59afda22a18e76cbaf7ed2475c3e5f720e26e9f708a55f39b2cdb",
+          "sha1": "8b7a191c3f3f700ab68047f67c6c612a3b1e0042",
+          "md5": "d03d2a9b935984775b2b1e844335ad25"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.core",
+          "module": "core-ktx",
+          "version": {
+            "requires": "1.15.0"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.7.0"
+          }
+        },
+        {
+          "group": "com.google.android.material",
+          "module": "material",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "androidx.test",
+          "module": "core-ktx",
+          "version": {
+            "requires": "1.7.0"
+          }
+        },
+        {
+          "group": "com.google.code.gson",
+          "module": "gson",
+          "version": {
+            "requires": "2.11.0"
+          }
+        },
+        {
+          "group": "com.squareup.retrofit2",
+          "module": "converter-gson",
+          "version": {
+            "requires": "2.11.0"
+          }
+        },
+        {
+          "group": "com.squareup.retrofit2",
+          "module": "retrofit",
+          "version": {
+            "requires": "2.11.0"
+          }
+        },
+        {
+          "group": "com.squareup.okhttp3",
+          "module": "okhttp",
+          "version": {
+            "requires": "4.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.24"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core-1.4.7.aar",
+          "url": "core-1.4.7.aar",
+          "size": 349441,
+          "sha512": "ae6f9e83d502b9652e31e060eda5d98146cfd25e401c9cb067730aaa89d414af75276ec58ebef361d436a53119e5a2074b34bb8b90a4ebadfd1cc2bdd50d128a",
+          "sha256": "76709a41a9d59afda22a18e76cbaf7ed2475c3e5f720e26e9f708a55f39b2cdb",
+          "sha1": "8b7a191c3f3f700ab68047f67c6c612a3b1e0042",
+          "md5": "d03d2a9b935984775b2b1e844335ad25"
+        }
+      ]
+    },
+    {
+      "name": "releaseSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "files": [
+        {
+          "name": "core-1.4.7-sources.jar",
+          "url": "core-1.4.7-sources.jar",
+          "size": 114889,
+          "sha512": "76af03854dd77c106f50f832fe9227d481b671f355e026902d7d7e21142e80c7a57554c99ddc08dd28980a5f142a912f70c33d4c1cb6efd4abb2469a63f4dfbb",
+          "sha256": "2ca10578dbf92827b62ef8561b007a6482de8c9ab1658981a2a298dcfff3a046",
+          "sha1": "f40f50f569c04716c6f7ae1d481a8eec7ec1e333",
+          "md5": "a74da5a6064a7b262961bf8cef9a2a22"
+        }
+      ]
+    }
+  ]
+}
